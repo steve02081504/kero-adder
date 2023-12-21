@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Test Page</title>
+</head>
+
+<body>
+	<script>
+		/// <reference types="jsstp" />
+		"use strict";
+
+		/** @type {typeof import("jsstp").jsstp} */
+		var jsstp;
+
+		//页面加载完成后，检查ghost可用性
+		document.addEventListener('DOMContentLoaded', () =>
+			import("https://cdn.jsdelivr.net/gh/ukatech/jsstp-lib@v3.0.0.1/dist/jsstp.mjs")
+				.then(m => (jsstp = m.jsstp).if_available(init_content)).catch(e => e)
+		);
+
+		var char_num = 0;
+
+		//每秒执行一次
+		function init_content() {
+			setInterval(() => {
+				jsstp.SEND({
+					Script: `\\p[${char_num}]Hi!`,
+					Option: "notranslate"
+				})
+				char_num++;
+			}, 1000);
+		}
+
+	</script>
+</body>
+
+</html>
